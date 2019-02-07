@@ -37,7 +37,7 @@ No test function required for this problem.
 
 ## Problem 2
 
-Write a function to create new `Cred` structs. The function must be named `cred` and it should have three arguments. The first argument is the username, the second is the password, and the third is a pointer to another struct Cred. After you do this, write the following code in your main function to make sure it compiles:
+Write a function to create new `Cred` structs. The function includmust be named `cred` and it should have three arguments. The first argument is the username, the second is the password, and the third is a pointer to another struct Cred. After you do this, write the following code in your main function to make sure it compiles:
 
 ```
 struct Cred* c = cred("caleb", "xyz",

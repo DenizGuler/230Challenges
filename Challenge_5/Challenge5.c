@@ -24,45 +24,36 @@ struct Cred *cred(char username[], char password[], struct Cred *link) {
     return new_cred;
 }
 
-// iterates through the list and returns memory to the heap
+// problem 3
 void cred_free(struct Cred *head) {
-
-    struct Cred *n = head;
-    while(n != NULL) {
-        struct Cred *n1 = n;
-        n = n->next;
-        free(n1);
-        n1 = NULL;
+    struct Cred *dummy = head + 1;
+    while (head != NULL) {
+        // iterates through the list and returns memory to the heap
+        free(head);
+        head = dummy;
+        dummy = dummy->next;
     }
-
-    free(head);
-
-    printf("%i", sizeof(head));
+    head = NULL;
 }
-    // struct Cred *dummy;
-    // while (head != NULL) {
-    //     dummy = head->next;
-    //     free(head);
-    //     // head = head->next;
-    //     // free(dummy->next);
-    //     // dummy->next = NULL;
-    //     // free(dummy->password);
-    //     // dummy.password = "\0";
-    //     // free(dummy->username);
-    //
-    //     head = NULL;
-        // printf("user: %s, pass: %s\n", dummy->username, dummy->password);
-    // }
-    // free(head);
-    // head = NULL;
-// }
 
+// problem 4
 void cred_print(struct Cred *head) {
     struct Cred *dummy = head;
     while (dummy != NULL) {
         printf("user: %s, pass: %s\n", dummy->username, dummy->password);
         dummy = dummy->next;
     }
+}
+
+// problem 5
+struct Cred *cred_add(struct Cred *head, char username[], char password[]) {
+    struct Cred *dummy = head;
+    while (dummy->next != NULL) {
+        dummy = dummy->next;
+    }
+    struct Cred *new_cred = cred(username, password, NULL);
+    dummy->next = new_cred;
+    return head;
 }
 
 int test_cred() {
@@ -82,33 +73,46 @@ int test_cred_free() {
     struct Cred* c = cred("caleb", "xyz", b);
     cred_free(c);
     // cred_print(c);
-    // if (c != NULL ){// || b != NULL || a != NULL) {
-    //     return 1;
-    // }
-    // if (b != NULL) {
-    //     return 2;
-    // }
-    // if (a != NULL) {
-    //     return 3;
-    // }
-    // return 0;
-
-    printf("cheeto: %p, lizard: %p, pitr: %p", c, b, a);
-
+    if (c != NULL ){
+        return 1;
+    }
+    if (b != NULL) {
+        return 2;
+    }
+    if (a != NULL) {
+        return 3;
+    }
     return 0;
 
 }
 
+int test_cred_add() {
+    struct Cred* c = cred("a", "b",
+                          cred("c", "d",
+                               cred("e", "f", NULL)));
+    struct Cred *dummy = c;
+    // evaluates the size of the linked list before insertion
+    while (dummy->next != NULL) {
+        dummy = dummy->next;
+    }
+    c = cred_add(c, "g", "h");
 
+    // after insertion, dummy points to the second-to-last node. This checks that the next
+    // node is indeed the one that was inserted
+    if (strcmp(dummy->next->username, "g") == 0 && strcmp(dummy->next->password, "h") == 0) {
+        return 0;
+    }
+    return 1;
+}
 
 // See the README.txt file for the challenge description.
 int main(void) {
     struct Cred* c = cred("caleb", "xyz",
                           cred("hazel", "abc",
                                cred("jody", "123", NULL)));
+    // tests
+    printf("cred_test: %i, test_cred_add: %i\n", test_cred(), test_cred_add());
+
     cred_print(c);
-    printf("cred_test: %i, cred_free_test: %i\n", test_cred(), test_cred_free());
-    // cred_print(c);
-    printf("Get to work!\n");
     return 0;
 }
