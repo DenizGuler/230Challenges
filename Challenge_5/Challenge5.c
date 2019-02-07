@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <string.h>
 
 // problem 1
-struct Cred{
+struct Cred {
   char username;
+  char password;
   struct *Cred next;
 };
 
@@ -11,7 +13,7 @@ struct Cred{
  The first argument is the username, the second is the password, and the third is a pointer to another struct Cred.
 */
 
-struct Cred* Cred(char username[], char password[], struct Cred *link) {
+struct Cred* cred(char username[], char password[], struct Cred *link) {
 
 }
 
