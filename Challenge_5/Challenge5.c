@@ -26,14 +26,14 @@ struct Cred *cred(char username[], char password[], struct Cred *link) {
 
 // problem 3
 void cred_free(struct Cred *head) {
-    struct Cred *dummy = head + 1;
-    while (head != NULL) {
-        // iterates through the list and returns memory to the heap
-        free(head);
-        head = dummy;
-        dummy = dummy->next;
+    struct Cred *tmp;
+    while (head != NULL)
+    {
+        tmp = head;
+        head = head->next;
+        free(tmp);
+        tmp = NULL;
     }
-    head = NULL;
 }
 
 // problem 4
@@ -67,22 +67,19 @@ int test_cred() {
     return 0;
 }
 
+// the contents of the pointer are uncertain after free is called, therefore
+// we believe that there is no definitive way to check if memory has been
+// successfully deallocated. This test fails constantly 
 int test_cred_free() {
     struct Cred* a = cred("jody", "123", NULL);
     struct Cred* b = cred("hazel", "abc", a);
     struct Cred* c = cred("caleb", "xyz", b);
     cred_free(c);
-    // cred_print(c);
-    if (c != NULL ){
-        return 1;
+
+    if (c == NULL) {
+        return 0;
     }
-    if (b != NULL) {
-        return 2;
-    }
-    if (a != NULL) {
-        return 3;
-    }
-    return 0;
+    return 1;
 
 }
 
@@ -112,6 +109,7 @@ int main(void) {
                                cred("jody", "123", NULL)));
     // tests
     printf("cred_test: %i, test_cred_add: %i\n", test_cred(), test_cred_add());
+    printf("test_cred_free: %i\n", test_cred_free());
 
     cred_print(c);
     return 0;
