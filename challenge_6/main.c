@@ -2,24 +2,24 @@
 #include <stdbool.h>
 
 #define FILE_PATH "script.txt"
-#define CONTINUE lineCount < 20 && feof(file) == false
+#define CONTINUE line_count < 20 && !feof(file)// || getchar() == 'q'
 
 int main(void){
     FILE *file = fopen(FILE_PATH, "r");
 
-    int lineCount = 0;
-    char currentChar = '\0', input;
+    int line_count;
+    char current_char = '\0', input;
 	lable1:
+	line_count = 0;
     do {
-        currentChar = getc(file);
-        if(currentChar == '\n'){
-            ++lineCount;
+        current_char = getc(file);
+        if(current_char == '\n'){
+            ++line_count;
         }
-		printf("%c", currentChar);
-
+		printf("%c", current_char);
 	} while (CONTINUE);
-	scanf("%s", &input);
-	if (input != 'q')
-		goto lable1;
+	if (getchar() != 'q'){
+	   goto lable1;
+   }
 	return 0;
 }
