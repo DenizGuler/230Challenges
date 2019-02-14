@@ -2,7 +2,7 @@
 
 
 struct BSTNode{
-  char data[10];
+  char *data;
   struct BSTNode *left;
   struct BSTNode *right;
 };
