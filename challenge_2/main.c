@@ -6,9 +6,7 @@
 // multiplication table must be formatted such that all
 // the numbers are aligned properly.
 
-int cols;
-
-int displayArray(int a[][cols], int rows, int col) {
+int displayArray(int rows, int col, int a[rows][col]) {
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < col; j++) {
       printf("%2i ", a[i][j]);
@@ -16,7 +14,6 @@ int displayArray(int a[][cols], int rows, int col) {
     printf("\n");
   }
 }
-
 
 int main(void) {
   
@@ -26,10 +23,8 @@ int main(void) {
   scanf("%i", &nValue);
   printf("M value:");
   scanf("%i", &mValue);
-  cols = mValue;
   
   int values[nValue][mValue];
-
 
   for (int i = 1; i <= nValue; i++) {
     for (int j = 1; j <= mValue; j++) {
@@ -37,7 +32,7 @@ int main(void) {
     }
   }
 
-  displayArray(values, nValue, mValue);
+  displayArray(nValue, mValue, values);
 
   return 0;
 }
