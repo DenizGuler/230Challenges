@@ -8,7 +8,8 @@ int main(void){
     FILE *file = fopen(FILE_PATH, "r");
 
     int lineCount = 0;
-    char currentChar = '\0', input;
+    int currentChar;
+    char input;
 	lable1:
     do {
         currentChar = getc(file);
