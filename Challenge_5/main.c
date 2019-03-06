@@ -4,21 +4,23 @@
 
 // problem 1
 struct Cred {
-  char username[10];
-  char password[10];
+  char *username;
+  char *password;
   struct Cred *next;
-};
+} typedef Cred;
 
 // problem 2
-struct Cred *cred(char username[], char password[], struct Cred *link) {
-    struct Cred *new_cred = NULL;
-    new_cred = (struct Cred *) malloc(sizeof(struct Cred));
+struct Cred *cred(char *username, char *password, struct Cred *link) {
+    Cred *new_cred;
+    new_cred = (Cred *) malloc(sizeof(Cred));
+    
     // checking for issues with data allocation
     if (new_cred == NULL) {
         return NULL;
     }
-    strcpy(new_cred->username, username);
-    strcpy(new_cred->password, password);
+    
+    new_cred->username = username;
+    new_cred->password = password;
     new_cred->next = link;
 
     return new_cred;
@@ -26,14 +28,20 @@ struct Cred *cred(char username[], char password[], struct Cred *link) {
 
 // problem 3
 void cred_free(struct Cred *head) {
-    struct Cred *tmp;
-    while (head != NULL)
-    {
-        tmp = head;
-        head = head->next;
-        free(tmp);
-        tmp = NULL;
+//    struct Cred *tmp;
+//    while (head != NULL)
+//    {
+//        tmp = head;
+//        head = head->next;
+//        free(tmp);
+//        tmp = NULL;
+//    }
+    if (head == NULL) {
+        return;
     }
+    cred_free(head->next);
+    free(head);
+    head = NULL;
 }
 
 // problem 4
@@ -43,10 +51,12 @@ void cred_print(struct Cred *head) {
         printf("user: %s, pass: %s\n", dummy->username, dummy->password);
         dummy = dummy->next;
     }
+    free(dummy);
+    dummy = NULL;
 }
 
 // problem 5
-struct Cred *cred_add(struct Cred *head, char username[], char password[]) {
+struct Cred *cred_add(struct Cred *head, char *username, char *password) {
     struct Cred *dummy = head;
     while (dummy->next != NULL) {
         dummy = dummy->next;

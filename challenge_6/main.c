@@ -7,8 +7,14 @@
 int main(void){
     FILE *file = fopen(FILE_PATH, "r");
 
+<<<<<<< HEAD
     int line_count;
     char current_char = '\0', input;
+=======
+    int lineCount = 0;
+    int currentChar;
+    char input;
+>>>>>>> 2619ef305acd88dc0489325508c5c59bd635fcf3
 	lable1:
 	line_count = 0;
     do {
